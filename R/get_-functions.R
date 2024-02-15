@@ -95,6 +95,29 @@ test_forecast_type_is_quantile <- function(data) {
   return(observed_correct && predicted_correct && columns_correct)
 }
 
+#' @title Get Forecast Type From A Class Attribute
+#' @description Internal helper function to get the
+#' forecast type from a class attribute.
+#' @param data An object of class `forecast_*` object
+#' as produced by `as_forecast()`
+#' @return Character vector of length one with either "binary", "quantile",
+#' "sample" or "point".
+#' @keywords check-forecasts
+get_forecast_type_from_class <- function(data){
+  attr <- class(data)
+  if ("forecast_binary" %in% attr){
+    forecast_type <- "binary"
+  } else if("forecast_quantile" %in% attr){
+    forecast_type <- "quantile"
+  } else if("forecast_sample" %in% attr){
+    forecast_type <- "sample"
+  } else if("forecast_point" %in% attr){
+    forecast_type <- "point"
+  } else {
+    forecast_type <- "Not a forecast object"
+  }
+  return(forecast_type)
+}
 
 #' @title Get type of a vector or matrix of observed values or predictions
 #'

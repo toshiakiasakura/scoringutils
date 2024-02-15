@@ -202,7 +202,8 @@ ensure_data.table <- function(data) {
 }
 
 #' @title Print Information About A Forecast Object
-#' @description This function prints information about a forecast object,
+#' @description This function prints validation result
+#' and information about a forecast object,
 #' including "Forecast type", "Score columns",
 #' "Forecast unit".
 #'
@@ -217,12 +218,21 @@ ensure_data.table <- function(data) {
 #' print(dat)
 print.forecast_binary <- function(x, ...) {
   # Obtain forecast object information for printing
-  forecast_type <- get_forecast_type(x)
+  forecast_type <- get_forecast_type_from_class(x)
   score_cols <- get_score_names(x)
   forecast_unit <- get_forecast_unit(x)
 
+  # Validate a forecast object
+  cat("Validation result:\n")
+  val <- try(validate_forecast(x), silent=TRUE)
+  if(class(val)[1] ==  "try-error"){
+      message(val)
+  } else{
+    cat("Ready for being scored!!!\n")
+  }
+
   # Print forecast object information
-  cat("Forecast type:\n")
+  cat("\nForecast type:\n")
   print(forecast_type)
 
   if (!is.null(score_cols)) {
@@ -230,10 +240,12 @@ print.forecast_binary <- function(x, ...) {
     print(score_cols)
   }
 
-  cat("\nForecast unit:\n")
-  print(forecast_unit)
+  if(length(forecast_unit) != 0){
+    cat("\nForecast unit:\n")
+    print(forecast_unit)
+  }
 
-  cat("\n")
+  cat("\nprint on data.table:\n")
   NextMethod(x, ...)
 
   return(invisible(x))
