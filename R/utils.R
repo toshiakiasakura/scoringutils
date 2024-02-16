@@ -224,10 +224,11 @@ print.forecast_binary <- function(x, ...) {
 
   # Validate a forecast object
   cat("Validation result:\n")
-  val <- try(validate_forecast(x), silent=TRUE)
-  if(class(val)[1] ==  "try-error"){
-      message(val)
-  } else{
+
+  val <- try(validate_forecast(x), silent = TRUE)
+  if (class(val)[1] == "try-error") {
+    message(val)
+  } else {
     cat("Ready for being scored!!!\n")
   }
 
@@ -240,7 +241,7 @@ print.forecast_binary <- function(x, ...) {
     print(score_cols)
   }
 
-  if(length(forecast_unit) != 0){
+  if (length(forecast_unit) != 0) {
     cat("\nForecast unit:\n")
     print(forecast_unit)
   }

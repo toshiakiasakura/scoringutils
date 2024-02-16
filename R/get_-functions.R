@@ -103,15 +103,15 @@ test_forecast_type_is_quantile <- function(data) {
 #' @return Character vector of length one with either "binary", "quantile",
 #' "sample" or "point".
 #' @keywords check-forecasts
-get_forecast_type_from_class <- function(data){
+get_forecast_type_from_class <- function(data) {
   attr <- class(data)
-  if ("forecast_binary" %in% attr){
+  if ("forecast_binary" %in% attr) {
     forecast_type <- "binary"
-  } else if("forecast_quantile" %in% attr){
+  } else if ("forecast_quantile" %in% attr) {
     forecast_type <- "quantile"
-  } else if("forecast_sample" %in% attr){
+  } else if ("forecast_sample" %in% attr) {
     forecast_type <- "sample"
-  } else if("forecast_point" %in% attr){
+  } else if ("forecast_point" %in% attr) {
     forecast_type <- "point"
   } else {
     forecast_type <- "Not a forecast object"
