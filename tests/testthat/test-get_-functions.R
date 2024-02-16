@@ -15,6 +15,29 @@ test_that("get_forecast_unit() works as expected", {
   )
 })
 
+# `get_forecast_type_from_class()` =============================================
+test_that("get_forecast_type_from_class() works as expected",{
+  expect_equal(
+    get_forecast_type_from_class(
+      suppressMessages(as_forecast(example_binary))),
+    "binary"
+  )
+  expect_equal(
+    get_forecast_type_from_class(
+      suppressMessages(as_forecast(example_quantile))),
+    "quantile"
+  )
+  expect_equal(
+    get_forecast_type_from_class(
+      suppressMessages(as_forecast(example_point))),
+    "point"
+  )
+  expect_equal(
+    get_forecast_type_from_class(
+      suppressMessages(as_forecast(example_continuous))),
+    "sample"
+  )
+})
 
 # ==============================================================================
 # Test removing `NA` values from the data

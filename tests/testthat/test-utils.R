@@ -89,14 +89,18 @@ test_that("print() works on forecast_* objects", {
     forecast_unit <- get_forecast_unit(dat)
 
     # Check Forecast type
-    expect_output(print(dat), "Forecast type")
-    expect_output(print(dat), forecast_type)
+    expect_output(suppressMessages(print(dat)),
+      "Forecast type")
+    expect_output(suppressMessages(print(dat)),
+      forecast_type)
     # Check Forecast unit
-    expect_output(print(dat), "Forecast unit")
-    expect_output(print(dat), pattern = paste(forecast_unit, collapse = " "))
+    expect_output(suppressMessages(print(dat)),
+      "Forecast unit")
+    expect_output(suppressMessages(print(dat)),
+      pattern = paste(forecast_unit, collapse = " "))
 
     # Check print.data.table works.
-    output_original <- capture.output(print(dat))
+    output_original <- capture.output(suppressMessages(print(dat)))
     output_test <- capture.output(print(data.table(dat)))
     expect_contains(output_original, output_test)
   }
@@ -109,7 +113,20 @@ test_that("print() works on forecast_* objects", {
     add_coverage() %>%
     suppressMessages
 
-  expect_output(print(dat), "Score columns")
+  expect_output(suppressMessages(print(dat)), "Score columns")
   score_cols <- get_score_names(dat)
-  expect_output(print(dat), pattern = paste(score_cols, collapse = " "))
+  expect_output(suppressMessages(print(dat)), pattern = paste(score_cols, collapse = " "))
+})
+
+test_that("print.forecast_*() works when dataframe is collapsed", {
+  dat <- example_quantile %>%
+    set_forecast_unit(c("location", "target_end_date", "target_type", "horizon", "model")) %>%
+    as_forecast() %>%
+    suppressMessages
+
+  capture.output(expect_message(print(dat[, c("observed")]), "Error"))
+  capture.output(
+    suppressMessages(expect_message(
+      print(dat[, c("observed", "predicted")]), "Error")
+    ))
 })
