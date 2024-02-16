@@ -22,7 +22,8 @@
 \item{...}{additional arguments for \code{\link[=print]{print()}}}
 }
 \description{
-This function prints information about a forecast object,
+This function prints validation result
+and information about a forecast object,
 including "Forecast type", "Score columns",
 "Forecast unit".
 }
